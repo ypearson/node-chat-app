@@ -20,9 +20,20 @@ io.on('connection', (socket) => {
 
     console.log("user connection")
 
+    socket.emit('newMessageEvent', {
+        from:'mike',
+        createdAt:123,
+        text:'hello Mike!'
+    });
+
+    socket.on('createMessageEvent', (message)=>{
+        console.log(message);
+    });
+
     socket.on('disconnect', () => {
       console.log('User was disconnected from server');
     });
+
 });
 
 
