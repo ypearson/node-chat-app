@@ -4,4 +4,12 @@ var generateMessage = (from,message) => {
     return obj;
 }
 
-module.exports = {generateMessage};
+var generateLocationMessage = (from,lat,long) => {
+    var obj = {from,
+                url:`https://www.google.com/maps/@${lat},${long}`
+            }
+    return obj;
+}
+
+
+module.exports = {generateMessage, generateLocationMessage};

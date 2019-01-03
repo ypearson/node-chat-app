@@ -10,32 +10,53 @@ socket.on('disconnect', function() {
 
 socket.on('newMessageEvent', function(newMessage) {
   console.log('newMessage:', newMessage);
-  var li = $('<li></li>')
+  var li = $('<li></li>');
   li.text(`${newMessage.from}: ${newMessage.message}`);
   $('#messages').append(li);
 });
 
-// socket.emit("createMessageEvent", {
-//     from: "frank",
-//     text: "hi!"},
-//     function(serverAck) {
-//         console.log("Got Ack from server:", serverAck);
-//     });
+socket.on('newLocationMessageEvent', function(msg) {
+    console.log('newLocationMessageEvent',msg);
+    var li = $('<li></li>');
+    li.text(`${msg.from}: `);
+    var a  = $('<a target="_blank">My location</a>');
+    a.attr('href',msg.url);
+    li.append(a);
+    $('#messages').append(li);
+});
 
-jQuery('#message-form').on('submit', function(e) {
+$('#message-form').on('submit', function(e) {
+    var msgBox = $('#message-input[name=message]');
     e.preventDefault();
-
-    // console.log('val',$('#message-input[name=message]').val());
-    // console.log('attr',$('#message-input[name=message]').attr('value'));
 
     socket.emit('createMessageEvent', {
         from:'User',
-        text: $('#message-input[name=message]').val()
+        text: msgBox.val()
     }, function(data) {
-        console.log("server ack:", data)
+        console.log('server ack:', data)
+        msgBox.val('');
     });
+});
 
-    $('#message-input[name=message]').val('');
-    // $('#message-input[name=message]').attr('value','')
+var locationButton = $('#send-location');
+
+locationButton.on('click', function() {
+
+    if(!navigator.geolocation) {
+        return alert('Geolocation not supported by your browser.');
+    }
+
+    locationButton.attr('disabled', 'disabled').text("Sending location...");
+
+    navigator.geolocation.getCurrentPosition(function(pos) {
+        locationButton.removeAttr('disabled').text("Send location");
+        socket.emit('createLocationMessageEvent', {
+            latitude:pos.coords.latitude,
+            longitude:pos.coords.longitude
+        });
+    }, function() {
+        locationButton.removeAttr('disabled').text("Send location");
+        alert('unable to get location.');
+    });
 
 });

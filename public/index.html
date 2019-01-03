@@ -5,16 +5,31 @@
   <title></title>
   <meta name="description" content="description">
   <meta name="author" content="author">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 
-<body>
+<body class="chat">
 
-  <ol id="messages"></ol>
+  <div class="chat__sidebar">
+    <h3>People</h3>
+    <div id="users"></div>
+  </div>
 
-  <form id="message-form">
-    <input id="message-input" type="text" name="message" value="" placeholder="Enter Message"></input>
-    <button>Send</button>
-  </form>
+    <div class="chat__main">
+
+      <ol id="messages" class="chat__messages"></ol>
+
+      <div class="chat__footer">
+
+        <form id="message-form">
+        <input id="message-input" type="text" name="message" value="" placeholder="Enter Message" autofocus autocomplete="off"></input>
+        <button>Send</button>
+        </form>
+        <button id="send-location">Send location</button>
+
+      </div>
+
+    </div>
 
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
