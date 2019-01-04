@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Chat|ChatApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body class="chat">
+
+  <div class="chat__sidebar">
+    <h3>People<span class="someClass" style="color:yellow;">People</span></h3>
+    <div id="users"></div>
+  </div>
+
+    <div class="chat__main">
+
+      <ol id="messages" class="chat__messages"></ol>
+
+      <div class="chat__footer">
+
+        <form id="message-form">
+        <input id="message-input" type="text" name="message" value="" placeholder="Enter Message" autofocus autocomplete="off"></input>
+        <button>Send</button>
+        </form>
+        <button id="send-location">Send location</button>
+
+      </div>
+
+    </div>
+
+    <script id="message-template" type="text/template">
+
+      <!-- <p>{{from}}: {{text}} <span class="small__time">[{{createdAt}}]</span> </p> -->
+
+      <li class="message">
+        <div class="message__title">
+          <h4>{{from}}</h4>
+          <span>{{createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <p>{{text}}</p>
+        </div>
+      </li>
+
+
+    </script>
+
+
+    <script id="location-message-template" type="text/template">
+
+      <li class="message">
+        <div class="message__title">
+          <h4>{{from}}</h4>
+          <span>{{createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <a href="{{url}}" target="_blank">My current location</a>
+        </div>
+      </li>
+
+    </script>
+
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <!-- https://github.com/janl/mustache.js/blob/v2.2.1/mustache.js -->
+  <script type="text/javascript" src="/js/libs/mustache.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>
+  <script type="text/javascript" src="/js/chat.js"> </script>
+
+  <script type="text/javascript">
+
+  </script>
+
+</body>
+</html>
