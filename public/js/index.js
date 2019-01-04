@@ -1,5 +1,23 @@
 var socket = io();
 
+function scrollToBottom() {
+
+  // Selectors
+  var messages = $("messages");
+  var newMessage = messages.children('li:last-child');
+  // Heights
+  var clientHeight      = messages.prop('clientHeight');
+  var scrollTop         = messages.prop('scrollTop');
+  var scrollHeight      = messages.prop('scrollHeight');
+  var newMessageHeight  = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
+
+  if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    console.log("Should roll");
+    messages.scrollTop(scrollHeight);
+  }
+}
+
 socket.on('connect', function() {
   console.log('Connected to server');
 });
@@ -9,26 +27,45 @@ socket.on('disconnect', function() {
 });
 
 socket.on('newMessageEvent', function(msg) {
-  console.log('msg:', msg);
+
+  console.log(msg);
+
   var formatedTime = moment(msg.createdAt).format('h:mm a');
-  var li = $('<li></li>');
-  li.text(`${msg.from}: ${msg.message} [${formatedTime}]`);
-  $('#messages').append(li);
+  var template = $('#message-template').html();// return html inside script tags
+  var html = Mustache.render(template, {
+    text:msg.text,
+    from:msg.from,
+    createdAt: formatedTime
+  });
+  $('#messages').append(html);
+
+  // console.log('msg:', msg);
+  // var formatedTime = moment(msg.createdAt).format('h:mm a');
+  // var li = $('<li></li>');
+  // li.text(`${msg.from}: ${msg.message} [${formatedTime}]`);
+  // $('#messages').append(li);
 });
 
 socket.on('newLocationMessageEvent', function(msg) {
     console.log('newLocationMessageEvent',msg);
     var formatedTime = moment(msg.createdAt).format('h:mm a');
-    var li = $('<li></li>');
-    li.text(`${msg.from}: `);
-    var a  = $('<a target="_blank">My location</a>');
-    a.attr('href',msg.url);
-    li.append(a);
-    var span = $('<span></span>');
-    span.text(` [${formatedTime}]`);
-    li.append(span);
-    $('#messages').append(li);
+    var template = $('#location-message-template').html();
+    var html = Mustache.render(template, {
+      url:msg.url,
+      from:msg.from,
+      createdAt:formatedTime
+    });
+    $("#messages").append(html);
 
+    // var li = $('<li></li>');
+    // li.text(`${msg.from}: `);
+    // var a  = $('<a target="_blank">My location</a>');
+    // a.attr('href',msg.url);
+    // li.append(a);
+    // var span = $('<span></span>');
+    // span.text(` [${formatedTime}]`);
+    // li.append(span);
+    // $('#messages').append(li);
 });
 
 $('#message-form').on('submit', function(e) {

@@ -193,3 +193,8 @@ button:disabled {
     margin-right: 0px;
   }
 }
+
+span.small__time {
+  color:blue;
+  font-size: xx-small;
+}

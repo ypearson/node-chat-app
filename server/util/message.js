@@ -1,8 +1,8 @@
 const moment = require('moment');
 
-var generateMessage = (from, message) => {
+var generateMessage = (from, text) => {
     var obj = {from,
-               message,
+               text,
                createdAt: moment().valueOf()
                };
 

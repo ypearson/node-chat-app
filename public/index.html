@@ -31,7 +31,41 @@
 
     </div>
 
+    <script id="message-template" type="text/template">
+
+      <!-- <p>{{from}}: {{text}} <span class="small__time">[{{createdAt}}]</span> </p> -->
+
+      <li class="message">
+        <div class="message__title">
+          <h4>{{from}}</h4>
+          <span>{{createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <p>{{text}}</p>
+        </div>
+      </li>
+
+
+    </script>
+
+
+    <script id="location-message-template" type="text/template">
+
+      <li class="message">
+        <div class="message__title">
+          <h4>{{from}}</h4>
+          <span>{{createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <a href="{{url}}" target="_blank">My current location</a>
+        </div>
+      </li>
+
+    </script>
+
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <!-- https://github.com/janl/mustache.js/blob/v2.2.1/mustache.js -->
+  <script type="text/javascript" src="/js/libs/mustache.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>
   <script type="text/javascript" src="/js/index.js"> </script>
