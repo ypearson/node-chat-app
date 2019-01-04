@@ -21,7 +21,7 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
 
-    console.log("user connection")
+    console.log("user connection");
 
     // emit to current user connection
     socket.emit('newMessageEvent',
@@ -33,22 +33,13 @@ io.on('connection', (socket) => {
 
     socket.on('createMessageEvent', (message, eventCallback)=>{
         console.log(message);
-        eventCallback('data from server')
-
+        eventCallback('data from server');
         io.emit('newMessageEvent', generateMessage(message.from,message.text));
-
-        // sent to all users expect originating user
-        // socket.broadcast.emit('newMessageEvent',{
-        //     from:message.from,
-        //     text:message.text,
-        //     createdAt: new Date().getTime()
-        // });
     });
 
     socket.on('createLocationMessageEvent',(msg) => {
         console.log(msg.latitude, msg.longitude);
         io.emit('newLocationMessageEvent', generateLocationMessage('admin', msg.latitude, msg.longitude));
-
     })
 
     socket.on('disconnect', () => {
